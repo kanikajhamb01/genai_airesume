@@ -1,11 +1,16 @@
-from main import analyze_github_repo_with_ai
-from github import Github
+import requests
 
-def analyze_github_repo(repo_url):
+def analyze_github_projects(username):
     try:
-        g = Github()  # anonymous access
-        repo = g.get_repo(repo_url.split("github.com/")[1])
-        readme = repo.get_readme().decoded_content.decode()
-        return analyze_github_repo_with_ai(readme, repo.name)
+        response = requests.get(f"https://api.github.com/users/{username}/repos")
+        repos = response.json()
+        projects = []
+        for repo in repos[:3]:  # Limit to top 3
+            projects.append({
+                "name": repo.get("name"),
+                "description": repo.get("description") or "No description",
+                "url": repo.get("html_url")
+            })
+        return projects
     except Exception as e:
-        return "GitHub analysis failed: " + str(e)
+        return []

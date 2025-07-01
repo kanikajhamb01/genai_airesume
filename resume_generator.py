@@ -1,44 +1,28 @@
 import os
-import json
 import subprocess
-import tempfile
-import shutil
 
-def fill_latex_template(template_path, user_data):
-    with open(template_path, 'r', encoding='utf-8') as f:
-        template = f.read()
+def generate_resume(data):
+    template_path = f"templates/{data.get('template', 'classic')}/template.tex"
 
-    # Replace placeholders with actual values
-    for key, value in user_data.items():
-        if isinstance(value, list):
-            value = ', '.join(value)
-        template = template.replace(f"<<{key}>>", value if value else "N/A")
+    with open(template_path, "r") as file:
+        latex_code = file.read()
 
-    return template
+    # Fill LaTeX placeholders
+    latex_code = latex_code.replace("{{NAME}}", data.get("name", ""))
+    latex_code = latex_code.replace("{{EMAIL}}", data.get("email", ""))
+    latex_code = latex_code.replace("{{SKILLS}}", data.get("skills", ""))
 
-def generate_resume(user_data, template_path):
-    try:
-        # Create a temporary directory for LaTeX build
-        temp_dir = tempfile.mkdtemp()
-        tex_file_path = os.path.join(temp_dir, "resume.tex")
-        pdf_output_path = os.path.join(temp_dir, "resume.pdf")
+    # Format project section
+    proj_string = ""
+    for proj in data.get("projects", []):
+        proj_string += f"\\item \\textbf{{{proj['name']}}}: {proj['description']}\\\\\n"
 
-        # Fill LaTeX template
-        latex_content = fill_latex_template(template_path, user_data)
+    latex_code = latex_code.replace("{{PROJECTS}}", proj_string.strip())
 
-        # Write the .tex file
-        with open(tex_file_path, 'w', encoding='utf-8') as f:
-            f.write(latex_content)
+    # Save filled LaTeX file
+    os.makedirs("user_data", exist_ok=True)
+    with open("user_data/generated_resume.tex", "w") as f:
+        f.write(latex_code)
 
-        # Compile the LaTeX to PDF using pdflatex
-        subprocess.run(["pdflatex", "-interaction=nonstopmode", tex_file_path], cwd=temp_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-        if os.path.exists(pdf_output_path):
-            final_output = os.path.join("user_data", "AI_Resume.pdf")
-            shutil.copy(pdf_output_path, final_output)
-            return final_output
-        else:
-            return None
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
+    # Compile to PDF
+    subprocess.run(["pdflatex", "-output-directory", "user_data", "user_data/generated_resume.tex"], stdout=subprocess.DEVNULL)

@@ -2,23 +2,31 @@ import streamlit as st
 from resume_generator import generate_resume
 from github_analysis import analyze_github_projects
 
+# ----------------------------
+# Page 1: Landing Page
+# ----------------------------
 def landing_page():
     st.title("🚀 AI Resume Builder")
     st.subheader("Choose a template to get started")
 
-    col1, col2, col3 = st.columns(3)
     templates = ["classic", "modern", "professional"]
+    cols = st.columns(3)
+
     for i, temp in enumerate(templates):
-        with [col1, col2, col3][i]:
-            st.image(f"templates/{temp}/preview.png", caption=temp.title())
-            if st.button(f"Use {temp.title()}"):
+        with cols[i]:
+            st.image(f"templates/{temp}/preview.png", caption=temp.title(), use_container_width=True)
+            if st.button(f"Use {temp.title()}", key=f"use_btn_{temp}_{i}"):
                 st.session_state["selected_template"] = temp
                 st.session_state["page"] = "builder"
                 st.rerun()
 
+# ----------------------------
+# Page 2: Builder Page
+# ----------------------------
 def builder_page():
     st.title("🛠️ Resume Builder")
     from resume_parser import extract_text_from_pdf, extract_basic_info
+
     st.markdown("### ✨ Step 1: Upload Previous Resume (Optional)")
     uploaded_file = st.file_uploader("Upload a PDF resume to auto-fill details (or fill manually)", type=["pdf"])
 
@@ -59,15 +67,24 @@ def builder_page():
             "projects": project_list,
             "template": template
         }
-        st.success("✅ Resume data ready! Proceed to PDF generation.")
+        st.success("✅ Resume data ready! Proceeding to PDF generation...")
         st.session_state.page = "generate"
 
+# ----------------------------
+# Page 3: Thank You Page
+# ----------------------------
 def thank_you_page():
     st.title("✅ Resume Generated!")
     st.write("Your resume has been successfully created.")
-    with open("user_data/generated_resume.pdf", "rb") as f:
-        st.download_button("📥 Download Resume", f, file_name="resume.pdf")
+
+    try:
+        with open("user_data/generated_resume.pdf", "rb") as f:
+            st.download_button("📥 Download Resume", f, file_name="resume.pdf")
+    except FileNotFoundError:
+        st.error("Resume file not found. Please try generating it again.")
 
     if st.button("🔄 Start Over"):
         st.session_state.clear()
-        st.experimental_rerun()
+        st.rerun() 
+
+

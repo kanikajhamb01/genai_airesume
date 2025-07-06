@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Times New Roman', serif;
+      margin: 60px;
+      color: #000;
+    }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 5px;
+    }
+    p {
+      font-size: 14px;
+    }
+    h2 {
+      font-size: 18px;
+      margin-top: 30px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000;
+    }
+    ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>{{ name }}</h1>
+  <p><strong>Email:</strong> {{ email }}</p>
+
+  <h2>Skills</h2>
+  <ul>
+    {% for skill in skills.split(',') %}
+    <li>{{ skill.strip() }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Projects</h2>
+  <ul>
+    {% for project in projects %}
+    <li><strong>{{ project.name }}</strong>: {{ project.description }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
+
+

@@ -1,28 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <style>
-    body { font-family: Georgia; margin: 50px; }
-    h1 { font-size: 36px; }
-    h2 { font-size: 20px; border-bottom: 1px solid #ccc; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ name }}'s Resume</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>{{ name }}</h1>
-  <p>Email: {{ email }}</p>
 
-  <h2>Skills</h2>
-  <ul>
-    {% for skill in skills.split(',') %}
-    <li>{{ skill.strip() }}</li>
-    {% endfor %}
-  </ul>
+  <header class="header">
+    <div class="header-left">
+      <h1>{{ name }}</h1>
+    </div>
+    <div class="header-right">
+      <a href="mailto:{{ email }}">{{ email }}</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+      <span>{{ contact }}</span>
+    </div>
+  </header>
 
-  <h2>Projects</h2>
-  <ul>
-    {% for project in projects %}
-    <li><strong>{{ project.name }}</strong>: {{ project.description }}</li>
-    {% endfor %}
-  </ul>
+  <hr class="section-divider" />
+
+  <main class="content">
+
+    <section class="section education">
+      <h2>Education</h2>
+      {% if education %}
+        {% for edu in education %}
+          <div class="entry">
+            <strong>{{ edu.degree }} - {{ edu.institution }}</strong>
+            <p>{{ edu.details }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No education details provided.</p>
+      {% endif %}
+    </section>
+
+    <hr class="section-divider" />
+
+    <section class="section">
+      <h2>Skills</h2>
+      {% if skills %}
+        <p>{{ skills }}</p>
+      {% else %}
+        <p>No skills provided.</p>
+      {% endif %}
+    </section>
+
+    <hr class="section-divider" />
+
+    <section class="section projects">
+      <h2>Projects</h2>
+      {% if projects %}
+        {% for project in projects %}
+          <div class="entry">
+            <strong>{{ project.name }}</strong>
+            <p>{{ project.description }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No projects added.</p>
+      {% endif %}
+    </section>
+
+    <hr class="section-divider" />
+
+    <section class="section">
+      <h2>Achievements</h2>
+      {% if achievements %}
+        <ul class="inline-list">
+          {% for achievement in achievements %}
+            <li>{{ achievement }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No achievements provided.</p>
+      {% endif %}
+    </section>
+
+    <hr class="section-divider" />
+
+    <section class="section">
+      <h2>Certifications</h2>
+      {% if certifications %}
+        <ul class="inline-list">
+          {% for cert in certifications %}
+            <li>{{ cert }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No certifications provided.</p>
+      {% endif %}
+    </section>
+
+    <hr class="section-divider" />
+
+    <section class="section">
+      <h2>Profile</h2>
+      <p>
+        LinkedIn: <a href="{{ linkedin }}" target="_blank">{{ linkedin }}</a><br />
+        GitHub: <a href="{{ github }}" target="_blank">{{ github }}</a>
+      </p>
+    </section>
+
+  </main>
+
 </body>
 </html>

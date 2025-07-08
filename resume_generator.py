@@ -7,14 +7,18 @@ def generate_resume(data):
     template = env.get_template(f'{data["template"]}.html')  # e.g. classic.html
 
     rendered_html = template.render(
-        name=data["name"],
-        email=data["email"],
-        skills=data["skills"],
-        projects=data["projects"]
+        name=data.get("name", ""),
+        email=data.get("email", ""),
+        contact=data.get("contact", ""),
+        skills=data.get("skills", ""),
+        projects=data.get("projects", []),
+        achievements=data.get("achievements", []),
+        certifications=data.get("certifications", []),
+        linkedin=data.get("linkedin", ""),
+        github=data.get("github", ""),
+        education=data.get("education", [])
     )
 
     os.makedirs("user_data", exist_ok=True)
     output_pdf = "user_data/generated_resume.pdf"
     HTML(string=rendered_html).write_pdf(output_pdf)
-
-

@@ -76,7 +76,8 @@ def builder_page():
                 st.session_state.temp_project = {
                     "name": repo_data['name'],
                     "description": repo_data['description'],
-                    "tech_stack": repo_data.get("tech_stack", repo_data.get("language", ""))
+                    "tech_stack": repo_data.get("tech_stack", repo_data.get("language", "")),
+                    "url": repo_data.get("url")
                 }
                 st.success("✅ Repository details fetched! Edit and confirm below.")
 
@@ -91,7 +92,8 @@ def builder_page():
             st.session_state.fetched_projects.append({
                 "name": p["name"],
                 "description": p["description"],
-                "tech_stack": p["tech_stack"]
+                "tech_stack": p["tech_stack"],
+                "url": p.get("url", "")
             })
             del st.session_state.temp_project
             st.rerun()  # Refresh to clear input and temp project
@@ -196,3 +198,4 @@ def thank_you_page():
     if st.button("🔄 Start Over"):
         st.session_state.clear()
         st.rerun()
+

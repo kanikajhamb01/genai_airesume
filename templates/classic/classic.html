@@ -50,18 +50,29 @@
     <hr class="section-divider" />
 
     <section class="section projects">
-      <h2>Projects</h2>
-      {% if projects %}
-        {% for project in projects %}
-          <div class="entry">
-            <strong>{{ project.name }}</strong>
-            <p>{{ project.description }}</p>
-          </div>
-        {% endfor %}
-      {% else %}
-        <p>No projects added.</p>
-      {% endif %}
-    </section>
+    <h2>Projects</h2>
+    {% if projects %}
+      {% for project in projects %}
+        <div class="entry">
+          <strong>
+            {% if project.url %}
+              <a href="{{ project.url }}" target="_blank">{{ project.name }}</a>
+            {% else %}
+              {{ project.name }}
+            {% endif %}
+          </strong>
+          <p>{{ project.description }}</p>
+          {% if project.tech_stack %}
+            <p><em>Tech Stack:</em> {{ project.tech_stack }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No projects added.</p>
+    {% endif %}
+  </section>
+
+
 
     <hr class="section-divider" />
 
@@ -107,3 +118,4 @@
 
 </body>
 </html>
+

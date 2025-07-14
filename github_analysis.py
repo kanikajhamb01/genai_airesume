@@ -26,7 +26,8 @@ def analyze_single_repo(repo_url):
             "language": repo.get("language") or "N/A",
             "stars": repo.get("stargazers_count", 0),
             "forks": repo.get("forks_count", 0),
-            "tech_stack": tech_stack
+            "tech_stack": tech_stack,
+            "url": repo_url
         }
     except Exception as e:
         return {"error": str(e)}

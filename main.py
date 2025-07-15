@@ -85,18 +85,31 @@ def landing_page():
 # ----------------------------
 def builder_page():
     from resume_parser import extract_text_from_pdf, extract_basic_info
-
     st.markdown("""
         <div style='padding: 2rem; background: linear-gradient(to right, #e8f5e9, #f1f8e9); border-radius: 12px; margin-bottom: 1rem;'>
             <h1 style='color: #2e7d32;'>🧠 Build Your Smart Resume</h1>
             <p style='color: #555;'>Upload an old resume, fetch GitHub projects, or manually enter details to generate your professional resume.</p>
         </div>
+        """, unsafe_allow_html=True)
+    st.markdown("""
+        <div style='text-align: center; margin-top: 1rem; margin-bottom: 2rem;'>
+            <a href="https://cloud.flowiseai.com/chatbot/28805987-d5ec-4faf-a858-a9dbd3b3ad98" target="_blank" style="
+                background-color: #27ae60;
+                color: white;
+                padding: 0.9rem 1.8rem;
+                border-radius: 12px;
+                text-decoration: none;
+                font-size: 1.1rem;
+                font-weight: 500;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                display: inline-block;
+                transition: background-color 0.3s ease;
+            " onmouseover="this.style.backgroundColor='#219150'" onmouseout="this.style.backgroundColor='#27ae60'">
+                🎙️ Explore our bot to generate your resume with voice
+            </a>
+        </div>
     """, unsafe_allow_html=True)
 
-    with st.expander("💬 Need Help? Talk to our Resume Bot (Coming Soon)", expanded=False):
-        st.info("This section will help you interact with a chatbot to fill resume sections intelligently.")
-
-    st.markdown("---")
 
     # Step 1: Upload
     st.subheader("📄 Upload Existing Resume (Optional)")
@@ -259,19 +272,21 @@ def thank_you_page():
 
     st.markdown("---")
 
-    # 💬 Chat with Bot Suggestion
+        # 💬 Chat with Bot Suggestion (Live Button)
     st.markdown("""
         <div style='text-align: center; margin-top: 2rem;'>
             <p style='font-size: 1rem; color: #888;'>Not satisfied yet? Want to make it even better?</p>
-            <button disabled style='
-                background-color: #2980b9;
+            <a href="https://cloud.flowiseai.com/chatbot/28805987-d5ec-4faf-a858-a9dbd3b3ad98" target="_blank" style="
+                background-color: #27ae60;
                 color: white;
-                padding: 0.8rem 1.5rem;
-                border-radius: 8px;
-                border: none;
-                font-size: 1rem;
-                cursor: not-allowed;
-            '>💬 Chat with AI Bot (Coming Soon)</button>
+                padding: 0.9rem 1.8rem;
+                border-radius: 10px;
+                font-size: 1.05rem;
+                font-weight: 500;
+                text-decoration: none;
+                display: inline-block;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            ">💬 Explore our bot to enhance your resume</a>
         </div>
     """, unsafe_allow_html=True)
 
